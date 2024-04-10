@@ -6,17 +6,21 @@ USE tech_for_good;
 CREATE TABLE IF NOT EXISTS rota (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45)
-);
+); 
+-- auto increment ?
 
 CREATE TABLE IF NOT EXISTS lote (
     id INT PRIMARY KEY AUTO_INCREMENT
 );
 
+-- lote ?????
+
+
 CREATE TABLE IF NOT EXISTS historico_rota (
     id INT PRIMARY KEY AUTO_INCREMENT,
     km_rodados VARCHAR(45),
     qtd_colaboradores INT,
-    data_historico_rota DATE,
+    data_historico DATE,
     hora_inicio TIME, 
     hora_fim TIME,
     qtd_cestas INT,
@@ -25,6 +29,9 @@ CREATE TABLE IF NOT EXISTS historico_rota (
     CONSTRAINT FOREIGN KEY(fk_rota) REFERENCES rota(id),
     CONSTRAINT FOREIGN KEY(fk_lote) REFERENCES lote(id)
 );
+
+
+
 
 CREATE TABLE IF NOT EXISTS tipo_cesta (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -63,9 +70,9 @@ CREATE TABLE IF NOT EXISTS condominio (
 CREATE TABLE IF NOT EXISTS campanha (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
-    local VARCHAR(45),
+    local_campanha VARCHAR(45),
     data_campanha DATE,
-    qtdArrecadada INT
+    qtd_arrecadada INT
 );
 
 CREATE TABLE IF NOT EXISTS origem (
