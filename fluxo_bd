@@ -1,7 +1,13 @@
-cadastro de endereço 
 cadastro de rota
+cadastro de endereço 
+cadastro tipo_produto
 cadastro de produtos (produto existe? select box : adiciona )
-cadastro de produtos unitários
+cadastro unidade_medida
+cadastro condominio
+cadastro campanha
+cadastro origem
 cadastro de cesta
+cadastro de produtos unitários
+
 
 
