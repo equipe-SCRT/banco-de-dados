@@ -1,58 +1,56 @@
 
 CREATE VIEW tech_for_good.v_produto_unitario_qtd_ativo_por_mes AS
 select
-    date_format(p.criado_em, '%Y-%m') AS mes_ano,
+    date(pu.criado_em) as 'criado_em',
     COUNT(*) as 'qtd',
-    p.nome
+    pu.produto_id
 from
-    tech_for_good.produto_unitario p
-where
-    p.ativo = 1 AND p.vencido = 0
+    tech_for_good.produto_unitario pu
 group by
-    date_format(p.criado_em, '%Y-%m'),
-    p.nome
+    date(pu.criado_em),
+    pu.produto_id
 order by
-    date_format(p.criado_em, '%Y-%m');
+    pu.criado_em;
+
 
 CREATE VIEW tech_for_good.v_produto_unitario_qtd_vencido_por_mes AS
 select
-    date_format(p.criado_em, '%Y-%m') AS mes_ano,
+    date(pu.data_validade) as 'data_validade',
     COUNT(*) as 'qtd',
-    p.nome
+    pu.produto_id
 from
-    tech_for_good.produto_unitario p
+    tech_for_good.produto_unitario pu
 where
-    p.ativo = 1 AND p.vencido = 0
+    pu.vencido = 1
 group by
-    date_format(p.criado_em, '%Y-%m')
-    p.nome
+    date(pu.data_validade),
+    pu.produto_id
 order by
-    date_format(p.criado_em, '%Y-%m');
+    pu.data_validade;
 
+CREATE VIEW tech_for_good.v_produto_unitario_vencimento_15_e_30_dias AS
+select
+    (
+    select
+        count(*)
+    from
+        tech_for_good.produto_unitario pu
+    where
+        pu.data_validade between curdate() and curdate() + interval 15 day) AS vencimento15,
+    (
+    select
+        count(*)
+    from
+        tech_for_good.produto_unitario pu
+    where
+        pu.data_validade > curdate() + interval 16 day) AS vencimento30;
 
-CREATE VIEW tech_for_good.v_produto_unitario_vencimento_15_e_30_dias AS SELECT (
-SELECT 
-    COUNT(*)
-FROM 
-    tech_for_good.produto_unitario p
-where
-    p.data_validade BETWEEN  curdate() AND DATE_ADD(curdate(), INTERVAL 15 DAY)
-) as 'vencimento_em_15_dias', (
-SELECT 
-    COUNT(*)
-FROM 
-    tech_for_good.produto_unitario p
-where
-    p.data_validade BETWEEN DATE_ADD(curdate(), INTERVAL 16 DAY) AND DATE_ADD(curdate(), INTERVAL 30 DAY)
-) as 'vencimento_em_30_dias';
-
-
-
-CREATE VIEW tech_for_good.v_produto_unitario_vencido_x_arrecadado AS SELECT
+CREATE VIEW tech_for_good.v_produto_unitario_vencido_arrecadado AS SELECT
     p.nome,
-    SUM(CASE WHEN p.vencido = false THEN 1 ELSE 0 END) AS arrecadado,
-    SUM(CASE WHEN p.vencido = true THEN 1 ELSE 0 END) AS vencido
+    SUM(CASE WHEN pu.vencido = false THEN 1 ELSE 0 END) AS arrecadado,
+    SUM(CASE WHEN pu.vencido = true THEN 1 ELSE 0 END) AS vencido
 FROM
-    tech_for_good.produto_unitario p
+    tech_for_good.produto_unitario pu
+    JOIN tech_for_good.produto p on pu.produto_id = p.id
 GROUP BY
-    p.nome;
+    p.id;
