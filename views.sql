@@ -45,7 +45,7 @@ select
     where
         pu.data_validade > curdate() + interval 16 day) AS vencimento30;
 
-CREATE VIEW tech_for_good.v_produto_unitario_vencido_arrecadado AS SELECT
+CREATE VIEW tech_for_good.v_produto_unitario_vencido_arrecadado  AS SELECT
     p.nome,
     SUM(CASE WHEN pu.vencido = false THEN 1 ELSE 0 END) AS arrecadado,
     SUM(CASE WHEN pu.vencido = true THEN 1 ELSE 0 END) AS vencido

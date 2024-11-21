@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: "urubu100"
+      MYSQL_DATABASE: "tech_for_good"
+    ports:
+      - "3306:3306"
+    networks:
+      - net-scrt
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always                                                                                                                                     
+
+volumes:
+  mysql-data:
+
+networks:
+  net-scrt:
+    external: true
