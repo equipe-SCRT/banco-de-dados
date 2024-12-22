@@ -296,8 +296,10 @@ CREATE TABLE `origem` (
 LOCK TABLES `origem` WRITE;
 /*!40000 ALTER TABLE `origem` DISABLE KEYS */;
 INSERT INTO `origem` (`id`, `criado_em`, `modificado_em`, `auta_de_souza_rua`, `itapora`, `campanha_id`, `condominio_id`) VALUES
-(1, '2024-09-09 23:05:33.206623', NULL, 1, 1, NULL, 4),
-(2, '2024-09-09 23:05:33.206623', NULL, 1, 1, NULL, 5);
+(1, '2024-09-09 23:05:33.206623', NULL, 1, NULL, NULL, NULL),
+(2, '2024-09-09 23:05:33.206623', NULL, NULL, 1, NULL, NULL),
+(3, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, 1, NULL),
+(4, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, NULL, 4);
 /*!40000 ALTER TABLE `origem` ENABLE KEYS */;
 UNLOCK TABLES;
 
