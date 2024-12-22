@@ -329,10 +329,12 @@ CREATE TABLE `produto` (
 LOCK TABLES `produto` WRITE;
 /*!40000 ALTER TABLE `produto` DISABLE KEYS */;
 INSERT INTO `produto` (`id`, `criado_em`, `modificado_em`, `nome`, `tipo_produto_id`) VALUES
-(1, '2024-09-09 23:01:31.078407', NULL, 'Óleo', 1),
-(2, '2024-09-09 23:02:47.597533', NULL, 'Farinha', 5);
+(1, '2024-09-09 23:01:31.078407', NULL, 'Óleo', 2),
+(2, '2024-09-09 23:02:47.597533', NULL, 'Farinha', 2);
 /*!40000 ALTER TABLE `produto` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
 
 --
 -- Table structure for table `produto_cesta`
