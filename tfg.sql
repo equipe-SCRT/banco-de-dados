@@ -283,6 +283,7 @@ CREATE TABLE `origem` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE origem ADD CONSTRAINT condominio_id FOREIGN KEY (condominio_id) REFERENCES condominio(id) ON DELETE CASCADE;
+ALTER TABLE origem ADD CONSTRAINT campanha_id FOREIGN KEY (campanha_id) REFERENCES campanha(id) ON DELETE CASCADE;
 
 --
 -- Dumping data for table `origem`
