@@ -1,11 +1,32 @@
+
 -- MySQL dump 10.13  Distrib 8.0.35, for Linux (x86_64)
 --
 -- Host: localhost    Database: tech_for_good
 -- ------------------------------------------------------
 -- Server version	8.0.35
--- drop database if exists tech_for_good;
--- create database tech_for_good;
+drop database if exists tech_for_good;
+create database tech_for_good;
 use tech_for_good;
+
+-- SELECT COUNT(*) AS qtdEmVencimento FROM produto_unitario
+-- WHERE data_validade = CURDATE();
+
+-- SELECT * FROM unidade_medida;
+-- SELECT * FROM tipo_campanha;
+-- SELECT * FROM usuario;
+-- UPDATE usuario SET nome = "Fulvia Cristina" WHERE id = 1; 
+-- SELECT * FROM produto_unitario;
+-- UPDATE produto SET unidade_medida_id = 2 WHERE id = 2;
+-- SELECT * FROM produto;
+-- SELECT * FROM rota;
+-- SELECT * FROM tipo_campanha;
+-- SELECT * FROM campanha;
+-- SELECT * FROM cesta;
+-- SELECT * FROM tipo_cesta;
+-- SELECT * FROM origem;
+-- SELECT * FROM condominio;
+
+-- SELECT * FROM v_total_produtos_arrecadados_por_mes;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -38,17 +59,9 @@ CREATE TABLE `tipo_campanha` (
 LOCK TABLES `tipo_campanha` WRITE;
 /*!40000 ALTER TABLE `tipo_campanha` DISABLE KEYS */;
 INSERT INTO `tipo_campanha` VALUES
-(1, '2024-09-09 23:07:56.152706', NULL, 'Escola Viva'),
-(2, '2024-09-10 12:00:00.000000', NULL, 'Parque Central'),
-(3, '2024-09-11 13:30:00.000000', NULL, 'Praça das Flores'),
-(4, '2024-09-12 14:45:00.000000', NULL, 'Rua das Acácias'),
-(5, '2024-09-13 10:00:00.000000', NULL, 'Centro Comunitário'),
-(6, '2024-09-14 16:00:00.000000', NULL, 'Estádio Municipal'),
-(7, '2024-09-15 18:30:00.000000', NULL, 'Shopping Central'),
-(8, '2024-09-16 08:15:00.000000', NULL, 'Teatro Principal'),
-(9, '2024-09-17 09:45:00.000000', NULL, 'Ginásio Municipal'),
-(10, '2024-09-18 11:20:00.000000', NULL, 'Escola Maria Luz'),
-(11, '2024-09-19 12:35:00.000000', NULL, 'Universidade Federal');
+(1, '2024-09-09 23:07:56.152706', NULL, 'Escola'),
+(2, '2024-09-10 12:00:00.000000', NULL, 'Parque'),
+(3, '2024-09-15 18:30:00.000000', NULL, 'Shopping');
 /*!40000 ALTER TABLE `tipo_campanha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,41 +80,39 @@ CREATE TABLE `campanha` (
   `data_campanha` datetime(6) DEFAULT NULL,
   `qtd_arrecadada` int DEFAULT NULL,
   `meta` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `tipo_campanha_id` INT,
+  `produto_id` INT,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (produto_id) REFERENCES produto(id),
+  FOREIGN KEY (tipo_campanha_id) REFERENCES tipo_campanha(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=12;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Dumping data for table `campanha`
 --
 
 LOCK TABLES `campanha` WRITE;
 /*!40000 ALTER TABLE `campanha` DISABLE KEYS */;
-INSERT INTO `campanha` (`id`, `criado_em`, `modificado_em`, `local_campanha`, `data_campanha`, `qtd_arrecadada`, `meta`) VALUES
-(1, '2024-09-09 23:07:56.152706', NULL, 'Escola Viva', '2024-09-09 23:07:20.909000', 100, 10),
-(2, '2024-09-10 12:00:00.000000', NULL, 'Parque Central', '2024-09-15 12:00:00.000000', 150, 30),
-(3, '2024-09-11 13:30:00.000000', NULL, 'Praça das Flores', '2024-09-20 15:00:00.000000', 200, 70),
-(4, '2024-09-12 14:45:00.000000', NULL, 'Rua das Acácias', '2024-09-25 16:00:00.000000', 300, 120),
-(5, '2024-09-13 10:00:00.000000', NULL, 'Centro Comunitário', '2024-09-28 18:00:00.000000', 400, 90),
-(6, '2024-09-14 16:00:00.000000', NULL, 'Estádio Municipal', '2024-09-30 10:00:00.000000', 500, 200),
-(7, '2024-09-15 18:30:00.000000', NULL, 'Shopping Central', '2024-10-02 11:00:00.000000', 600, 250),
-(8, '2024-09-16 08:15:00.000000', NULL, 'Teatro Principal', '2024-10-05 12:00:00.000000', 700, 180),
-(9, '2024-09-17 09:45:00.000000', NULL, 'Ginásio Municipal', '2024-10-07 09:00:00.000000', 800, 320),
-(10, '2024-09-18 11:20:00.000000', NULL, 'Escola Maria Luz', '2024-10-10 13:00:00.000000', 900, 400),
-(11, '2024-09-19 12:35:00.000000', NULL, 'Universidade Federal', '2024-10-12 14:00:00.000000', 1000, 500);
+INSERT INTO `campanha` (`id`, `criado_em`, `modificado_em`, `local_campanha`, `data_campanha`, `qtd_arrecadada`, `meta`, `tipo_campanha_id`) VALUES
+(1, '2024-09-09 23:07:56.152706', NULL, 'Escola Viva', '2024-09-09 23:07:20.909000', 100, 10, 1),
+(2, '2024-09-10 12:00:00.000000', NULL, 'Parque Central', '2024-09-15 12:00:00.000000', 150, 30, 1),
+(3, '2024-09-11 13:30:00.000000', NULL, 'Praça das Flores', '2024-09-20 15:00:00.000000', 200, 70, 1),
+(4, '2024-09-12 14:45:00.000000', NULL, 'Rua das Acácias', '2024-09-25 16:00:00.000000', 300, 120, 1),
+(5, '2024-09-13 10:00:00.000000', NULL, 'Centro Comunitário', '2024-09-28 18:00:00.000000', 400, 90, 1),
+(6, '2024-09-14 16:00:00.000000', NULL, 'Estádio Municipal', '2024-09-30 10:00:00.000000', 500, 200, 1),
+(7, '2024-09-15 18:30:00.000000', NULL, 'Shopping Central', '2024-10-02 11:00:00.000000', 600, 250, 1),
+(8, '2024-09-16 08:15:00.000000', NULL, 'Teatro Principal', '2024-10-05 12:00:00.000000', 700, 180, 1),
+(9, '2024-09-17 09:45:00.000000', NULL, 'Ginásio Municipal', '2024-10-07 09:00:00.000000', 800, 320, 1),
+(10, '2024-09-18 11:20:00.000000', NULL, 'Escola Maria Luz', '2024-10-10 13:00:00.000000', 900, 400, 1),
+(11, '2024-09-19 12:35:00.000000', NULL, 'Universidade Federal', '2024-10-12 14:00:00.000000', 1000, 500,1);
 /*!40000 ALTER TABLE `campanha` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `cesta`
---
 
 DROP TABLE IF EXISTS `cesta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cesta` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `id_lote` int DEFAULT NULL,
   `criado_em` datetime(6) DEFAULT NULL,
   `modificado_em` datetime(6) DEFAULT NULL,
   `data_montagem` date DEFAULT NULL,
@@ -119,17 +130,17 @@ CREATE TABLE `cesta` (
 
 LOCK TABLES `cesta` WRITE;
 /*!40000 ALTER TABLE `cesta` DISABLE KEYS */;
-INSERT INTO `cesta` (`id`, `id_lote`, `criado_em`, `modificado_em`, `data_montagem`, `qtd_cesta`, `tipo_cesta_id`) VALUES
-(1, NULL, '2024-09-09 23:08:21.205385', NULL, '2024-09-09', 1, 1),
-(2, NULL, '2024-09-09 23:08:24.201231', NULL, '2024-09-09', 1, 1),
-(3, NULL, '2024-09-09 23:08:24.560290', NULL, '2024-09-09', 1, 1),
-(4, NULL, '2024-09-09 23:08:24.959338', NULL, '2024-09-09', 1, 1),
-(5, NULL, '2024-09-09 23:08:25.331893', NULL, '2024-09-09', 1, 1),
-(6, NULL, '2024-09-09 23:08:25.729137', NULL, '2024-09-09', 1, 1),
-(7, NULL, '2024-09-09 23:08:26.108920', NULL, '2024-09-09', 1, 1),
-(8, NULL, '2024-09-09 23:08:26.473415', NULL, '2024-09-09', 1, 1),
-(9, NULL, '2024-09-09 23:08:26.839215', NULL, '2024-09-09', 1, 1),
-(10, NULL, '2024-09-09 23:08:27.337631', NULL, '2024-09-09', 1, 1);
+INSERT INTO `cesta` (`id`, `criado_em`, `modificado_em`, `data_montagem`, `qtd_cesta`, `tipo_cesta_id`) VALUES
+(1, '2024-09-09 23:08:21.205385', NULL, '2024-09-09', 1, 1),
+(2, '2024-09-09 23:08:24.201231', NULL, '2024-09-09', 1, 1),
+(3, '2024-09-09 23:08:24.560290', NULL, '2024-09-09', 1, 1),
+(4, '2024-09-09 23:08:24.959338', NULL, '2024-09-09', 1, 1),
+(5, '2024-09-09 23:08:25.331893', NULL, '2024-09-09', 1, 1),
+(6, '2024-09-09 23:08:25.729137', NULL, '2024-09-09', 1, 1),
+(7, '2024-09-09 23:08:26.108920', NULL, '2024-09-09', 1, 1),
+(8, '2024-09-09 23:08:26.473415', NULL, '2024-09-09', 1, 1),
+(9, '2024-09-09 23:08:26.839215', NULL, '2024-09-09', 1, 1),
+(10, '2024-09-09 23:08:27.337631', NULL, '2024-09-09', 1, 1);
 /*!40000 ALTER TABLE `cesta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,23 +163,7 @@ CREATE TABLE `condominio` (
 ) ENGINE=InnoDB AUTO_INCREMENT=13;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `condominio`
---
 
-LOCK TABLES `condominio` WRITE;
-/*!40000 ALTER TABLE `condominio` DISABLE KEYS */;
-INSERT INTO `condominio` (`id`, `criado_em`, `modificado_em`, `nome`, `endereco_id`) VALUES
-(4, '2024-09-12 13:00:00.000000', NULL, 'Jardim das Flores', 4),
-(5, '2024-09-13 14:00:00.000000', NULL, 'Boa Vista', 5),
-(6, '2024-09-14 15:00:00.000000', NULL, 'Monte Verde', 6),
-(7, '2024-09-15 16:00:00.000000', NULL, 'Nova Era', 7),
-(8, '2024-09-16 17:00:00.000000', NULL, 'Bela Vista', 8),
-(9, '2024-09-17 18:00:00.000000', NULL, 'Vila Verde', 9),
-(10, '2024-09-18 19:00:00.000000', NULL, 'Recanto Feliz', 10),
-(11, '2024-09-19 20:00:00.000000', NULL, 'Sol Poente', 11);
-/*!40000 ALTER TABLE `condominio` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `endereco`
@@ -282,12 +277,12 @@ CREATE TABLE `origem` (
   `campanha_id` int DEFAULT NULL,
   `condominio_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK6yf8q1orr09fw76aoy70gl7g6` (`campanha_id`),
-  KEY `FKrcnkom85yvicud76g9kj93xwj` (`condominio_id`),
-  CONSTRAINT `FK6yf8q1orr09fw76aoy70gl7g6` FOREIGN KEY (`campanha_id`) REFERENCES `campanha` (`id`),
-  CONSTRAINT `FKrcnkom85yvicud76g9kj93xwj` FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`)
+  FOREIGN KEY (`campanha_id`) REFERENCES `campanha` (`id`),
+  FOREIGN KEY (`condominio_id`) REFERENCES `condominio` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+ALTER TABLE origem ADD CONSTRAINT condominio_id FOREIGN KEY (condominio_id) REFERENCES condominio(id) ON DELETE CASCADE;
 
 --
 -- Dumping data for table `origem`
@@ -298,10 +293,11 @@ LOCK TABLES `origem` WRITE;
 INSERT INTO `origem` (`id`, `criado_em`, `modificado_em`, `auta_de_souza_rua`, `itapora`, `campanha_id`, `condominio_id`) VALUES
 (1, '2024-09-09 23:05:33.206623', NULL, 1, NULL, NULL, NULL),
 (2, '2024-09-09 23:05:33.206623', NULL, NULL, 1, NULL, NULL),
-(3, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, 1, NULL),
-(4, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, NULL, 4);
+(3, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, 1, NULL);
 /*!40000 ALTER TABLE `origem` ENABLE KEYS */;
 UNLOCK TABLES;
+
+SELECT * FROM tipo_campanha;
 
 --
 -- Table structure for table `produto`
@@ -315,27 +311,15 @@ CREATE TABLE `produto` (
   `criado_em` datetime(6) DEFAULT NULL,
   `modificado_em` datetime(6) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
+  `qtd_unidade_medida` INT DEFAULT NULL,
   `tipo_produto_id` int DEFAULT NULL,
+  `unidade_medida_id` INT DEFAULT NULL,
+  FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida(id),
   PRIMARY KEY (`id`),
   KEY `FKewk0ju35x8ugkx7sq8cp1uufo` (`tipo_produto_id`),
   CONSTRAINT `FKewk0ju35x8ugkx7sq8cp1uufo` FOREIGN KEY (`tipo_produto_id`) REFERENCES `tipo_produto` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `produto`
---
-
-LOCK TABLES `produto` WRITE;
-/*!40000 ALTER TABLE `produto` DISABLE KEYS */;
-INSERT INTO `produto` (`id`, `criado_em`, `modificado_em`, `nome`, `tipo_produto_id`) VALUES
-(1, '2024-09-09 23:01:31.078407', NULL, 'Óleo', 2),
-(2, '2024-09-09 23:02:47.597533', NULL, 'Farinha', 2);
-/*!40000 ALTER TABLE `produto` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
 --
 -- Table structure for table `produto_cesta`
 --
@@ -380,6 +364,7 @@ CREATE TABLE `produto_unitario` (
   `data_validade` date DEFAULT NULL,
   `peso` double DEFAULT NULL,
   `ativo` bit(1) NOT NULL,
+  `vencido` TINYINT(1),
   `conforme` tinyint DEFAULT NULL,
   `cesta_id` int DEFAULT NULL,
   `metrica_id` int DEFAULT NULL,
@@ -400,10 +385,15 @@ CREATE TABLE `produto_unitario` (
 ) ENGINE=InnoDB AUTO_INCREMENT=260;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+ALTER TABLE produto_unitario 
+ADD CONSTRAINT produto_id
+FOREIGN KEY (produto_id) REFERENCES produto(id) 
+ON DELETE CASCADE;
+
 --
 -- Dumping data for table `produto_unitario`
 --
-
+SELECT * FROM produto;
 LOCK TABLES `produto_unitario` WRITE;
 /*!40000 ALTER TABLE `produto_unitario` DISABLE KEYS */;
 -- inserir produtos unitários aqui
@@ -434,14 +424,13 @@ LOCK TABLES `tipo_cesta` WRITE;
 /*!40000 ALTER TABLE `tipo_cesta` DISABLE KEYS */;
 -- Inserindo tipos de cestas adicionais
 INSERT INTO `tipo_cesta` (`id`, `criado_em`, `modificado_em`, `nome`) VALUES
-(NULL, '2024-09-10 10:00:00', NULL, 'Básica');
+(1, '2024-09-10 10:00:00', NULL, 'Básica');
 /*!40000 ALTER TABLE `tipo_cesta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Table structure for table `tipo_produto`
 --
-
 DROP TABLE IF EXISTS `tipo_produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -511,6 +500,284 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+-- VIEWS
+
+
+DROP TABLE IF EXISTS v_produto_unitario_qtd_ativo_por_mes;
+DROP VIEW IF EXISTS v_produto_unitario_qtd_ativo_por_mes;
+CREATE VIEW v_produto_unitario_qtd_ativo_por_mes AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY DATE(pu.criado_em)) AS id,
+    DATE(pu.criado_em) AS criado_em,
+    COUNT(*) AS qtd,
+    pu.produto_id
+FROM
+    produto_unitario pu
+GROUP BY
+    DATE(pu.criado_em),
+    pu.produto_id
+ORDER BY
+    DATE(pu.criado_em);
+
+DROP TABLE IF EXISTS v_produto_unitario_qtd_vencido_por_mes;
+DROP VIEW IF EXISTS v_produto_unitario_qtd_vencido_por_mes;
+CREATE VIEW v_produto_unitario_qtd_vencido_por_mes AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY DATE(pu.data_validade)) AS id,
+    DATE(pu.data_validade) AS data_validade,
+    COUNT(*) AS qtd,
+    pu.produto_id
+FROM
+    produto_unitario pu
+WHERE
+    pu.vencido = 1
+GROUP BY
+    DATE(pu.data_validade),
+    pu.produto_id
+ORDER BY
+    DATE(pu.data_validade);
+
+DROP TABLE IF EXISTS v_produto_unitario_vencimento_15_e_30_dias;
+DROP VIEW IF EXISTS v_produto_unitario_vencimento_15_e_30_dias;
+CREATE VIEW v_produto_unitario_vencimento_15_e_30_dias AS
+SELECT
+    (
+        SELECT
+            COUNT(*)
+        FROM
+            produto_unitario pu
+        WHERE
+            pu.data_validade BETWEEN CURDATE() AND CURDATE() + INTERVAL 15 DAY
+    ) AS vencimento15,
+    (
+        SELECT
+            COUNT(*)
+        FROM
+            produto_unitario pu
+        WHERE
+        pu.data_validade BETWEEN (CURDATE() + INTERVAL 16 DAY) AND (CURDATE() + INTERVAL 42 DAY)
+    ) AS vencimento30;
+
+DROP TABLE IF EXISTS v_produto_unitario_vencido_arrecadado;
+DROP VIEW IF EXISTS v_produto_unitario_vencido_arrecadado;
+CREATE VIEW v_produto_unitario_vencido_arrecadado AS
+SELECT
+    p.nome,
+    SUM(CASE WHEN pu.vencido = FALSE THEN 1 ELSE 0 END) AS arrecadado,
+    SUM(CASE WHEN pu.conforme = FALSE THEN 1 ELSE 0 END) AS vencido
+FROM
+    produto_unitario pu
+        JOIN produto p ON pu.produto_id = p.id
+GROUP BY
+    p.id;
+
+DROP TABLE IF EXISTS v_qtd_produto_por_condominio;
+DROP VIEW IF EXISTS v_qtd_produto_por_condominio;
+CREATE VIEW v_qtd_produto_por_condominio AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY condominio.nome) AS id,
+    condominio.id AS condominio_id,
+    condominio.nome AS nome,
+    produto_unitario.produto_id,
+    COUNT(produto_unitario.id) AS qtd_produtos
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN condominio ON condominio.id = origem.condominio_id
+GROUP BY
+    condominio.id, produto_unitario.produto_id
+ORDER BY
+    condominio.nome;
+
+DROP TABLE IF EXISTS v_qtd_produtos_n_conforme_por_condominio;
+DROP VIEW IF EXISTS v_qtd_produtos_n_conforme_por_condominio;
+CREATE VIEW v_qtd_produtos_n_conforme_por_condominio AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY condominio.nome) AS id,
+    condominio.id AS condominio_id,
+    condominio.nome AS nome_condominio,
+    COUNT(produto_unitario.conforme) AS qtd_produtos
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN condominio ON condominio.id = origem.condominio_id
+WHERE
+    produto_unitario.conforme = 1
+GROUP BY
+    condominio.id
+ORDER BY
+    condominio.nome;
+
+DROP TABLE IF EXISTS v_qtd_produtos_vencidos_por_condominio;
+DROP VIEW IF EXISTS v_qtd_produtos_vencidos_por_condominio;
+CREATE VIEW v_qtd_produtos_vencidos_por_condominio AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY condominio.id) AS id,
+    condominio.id AS condominio_id,
+    condominio.nome AS nome_condominio,
+    COUNT(produto_unitario.id) AS qtd_vencidos
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN condominio ON condominio.id = origem.condominio_id
+WHERE
+    produto_unitario.data_validade < CURDATE()
+GROUP BY
+    condominio.id
+ORDER BY
+    condominio.id;
+
+DROP TABLE IF EXISTS v_qtd_discrepancia_condominios;
+DROP VIEW IF EXISTS v_qtd_discrepancia_condominios;
+CREATE VIEW v_qtd_discrepancia_condominios AS
+SELECT
+    condominio.nome AS nome_condominio,
+    produto_unitario.nome AS nome_produto,
+    COUNT(CASE WHEN produto_unitario.conforme = 0 THEN 1 ELSE NULL END) AS qtd_conforme,
+    COUNT(CASE WHEN produto_unitario.conforme = 1 THEN 1 ELSE NULL END) AS qtd_nao_conforme,
+    COUNT(CASE WHEN produto_unitario.conforme = 0 THEN 1 ELSE NULL END) AS discrepancia
+FROM
+    produto_unitario
+        JOIN origem ON origem.id = produto_unitario.origem_id
+        JOIN condominio ON condominio.id = origem.condominio_id
+GROUP BY
+    condominio.id, produto_unitario.nome
+ORDER BY
+    discrepancia DESC
+LIMIT 4;
+
+DROP TABLE IF EXISTS v_total_produtos_arrecadados_por_mes;
+DROP VIEW IF EXISTS v_total_produtos_arrecadados_por_mes;
+CREATE VIEW v_total_produtos_arrecadados_por_mes AS
+SELECT
+    DATE(produto_unitario.criado_em) AS criado_em,
+    COUNT(produto_unitario.id) AS count
+FROM
+    produto_unitario
+        JOIN origem ON origem.id = produto_unitario.origem_id
+        JOIN condominio ON condominio.id = origem.condominio_id
+GROUP BY
+    DATE(produto_unitario.criado_em)
+ORDER BY
+    criado_em;
+
+DROP TABLE IF EXISTS v_total_produtos_arrecadados_por_mes_condominio;
+DROP VIEW IF EXISTS v_total_produtos_arrecadados_por_mes_condominio;
+CREATE VIEW v_total_produtos_arrecadados_por_mes_condominio AS
+SELECT
+    condominio.id AS condominio_id,
+    DATE(produto_unitario.criado_em) AS criado_em,
+    COUNT(produto_unitario.id) AS count
+FROM
+    produto_unitario
+        JOIN origem ON origem.id = produto_unitario.origem_id
+        JOIN condominio ON condominio.id = origem.condominio_id
+WHERE
+    DATE(produto_unitario.criado_em) = (
+        SELECT DATE(MAX(criado_em))
+        FROM produto_unitario
+    )
+GROUP BY
+    DATE(produto_unitario.criado_em), condominio.id
+ORDER BY
+    condominio.id;
+
+DROP TABLE IF EXISTS v_qtd_produtos_por_nome_condominio;
+DROP VIEW IF EXISTS v_qtd_produtos_por_nome_condominio;
+CREATE VIEW v_qtd_produtos_por_nome_condominio AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY condominio.nome, DATE(produto_unitario.criado_em)) AS id,
+    condominio.nome AS nome_condominio,
+    DATE(produto_unitario.criado_em) AS criado_em,
+    COUNT(produto_unitario.id) AS count
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN condominio ON condominio.id = origem.condominio_id
+GROUP BY
+    condominio.nome, DATE(produto_unitario.criado_em)
+ORDER BY
+    condominio.nome, criado_em;
+
+DROP TABLE IF EXISTS v_qtd_total_alimentos_arrecadados_por_mes;
+DROP VIEW IF EXISTS v_qtd_total_alimentos_arrecadados_por_mes;
+CREATE VIEW v_qtd_total_alimentos_arrecadados_por_mes AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY DATE(data_campanha)) AS id,
+    SUM(qtd_arrecadada) AS qtd_arrecadada,
+    DATE(data_campanha) AS data_campanha
+FROM
+    campanha
+GROUP BY DATE(data_campanha)
+ORDER BY data_campanha;
+
+DROP TABLE IF EXISTS v_qtd_produto_por_campanha;
+DROP VIEW IF EXISTS v_qtd_produto_por_campanha;
+CREATE VIEW v_qtd_produto_por_campanha AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY campanha.local_campanha) AS id,
+    campanha.id AS campanha_id,
+    campanha.local_campanha AS nome,
+    produto_unitario.produto_id,
+    COUNT(produto_unitario.id) AS qtd_produtos
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN campanha ON campanha.id = origem.campanha_id
+GROUP BY
+    campanha.id, produto_unitario.produto_id
+ORDER BY
+    campanha.local_campanha;
+
+DROP TABLE IF EXISTS v_qtd_produtos_vencidos_por_campanha;
+DROP VIEW IF EXISTS v_qtd_produtos_vencidos_por_campanha;
+CREATE VIEW v_qtd_produtos_vencidos_por_campanha AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY campanha.id) AS id,
+    campanha.id AS campanha_id,
+    campanha.local_campanha AS nome,
+    produto_unitario.produto_id,
+    COUNT(produto_unitario.id) AS qtd_produtos_vencidos
+FROM
+    produto_unitario
+    JOIN origem ON origem.id = produto_unitario.origem_id
+    JOIN campanha ON campanha.id = origem.campanha_id
+WHERE
+    produto_unitario.vencido = TRUE
+GROUP BY
+    campanha.id, produto_unitario.produto_id
+ORDER BY
+    campanha.id;
+
+DROP TABLE IF EXISTS v_qtd_doacoes_por_campanha;
+DROP VIEW IF EXISTS v_qtd_doacoes_por_campanha;
+CREATE VIEW v_qtd_doacoes_por_campanha AS
+SELECT
+    ROW_NUMBER() OVER (ORDER BY campanha.local_campanha, DATE(campanha.data_campanha)) AS id,
+    SUM(campanha.qtd_arrecadada) AS qtd_arrecadada,
+    campanha.local_campanha AS nome,
+    DATE(campanha.data_campanha) AS data_campanha
+FROM
+    campanha
+GROUP BY campanha.local_campanha, DATE(campanha.data_campanha)
+ORDER BY nome, data_campanha;
+
+DROP TABLE IF EXISTS v_produtos_conforme_nao_conforme_campanhas;
+DROP VIEW IF EXISTS v_produtos_conforme_nao_conforme_campanhas;
+CREATE VIEW v_produtos_conforme_nao_conforme_campanhas AS
+SELECT
+    c.local_campanha AS nome,
+    SUM(CASE WHEN pu.vencido = FALSE THEN 1 ELSE 0 END) AS conforme,
+    SUM(CASE WHEN pu.vencido = TRUE THEN 1 ELSE 0 END) AS nao_conforme
+FROM
+    produto_unitario pu
+        JOIN produto p ON pu.produto_id = p.id
+        JOIN origem o ON pu.origem_id = o.id
+        JOIN campanha c ON o.campanha_id = c.id
+GROUP BY
+    c.id;
+
 
 --
 -- Dumping data for table `usuario`
