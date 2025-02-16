@@ -124,6 +124,7 @@ CREATE TABLE `cesta` (
 ) ENGINE=InnoDB AUTO_INCREMENT=28;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
 --
 -- Dumping data for table `cesta`
 --
@@ -288,7 +289,6 @@ ALTER TABLE origem ADD CONSTRAINT campanha_id FOREIGN KEY (campanha_id) REFERENC
 --
 -- Dumping data for table `origem`
 --
-
 LOCK TABLES `origem` WRITE;
 /*!40000 ALTER TABLE `origem` DISABLE KEYS */;
 INSERT INTO `origem` (`id`, `criado_em`, `modificado_em`, `auta_de_souza_rua`, `itapora`, `campanha_id`, `condominio_id`) VALUES
@@ -297,8 +297,6 @@ INSERT INTO `origem` (`id`, `criado_em`, `modificado_em`, `auta_de_souza_rua`, `
 (3, '2024-09-09 23:05:33.206623', NULL, NULL, NULL, 1, NULL);
 /*!40000 ALTER TABLE `origem` ENABLE KEYS */;
 UNLOCK TABLES;
-
-SELECT * FROM tipo_campanha;
 
 --
 -- Table structure for table `produto`
@@ -333,7 +331,7 @@ CREATE TABLE `produto_cesta` (
   `modificado_em` datetime(6) DEFAULT NULL,
   `tipo_cesta_id` int DEFAULT NULL,
   `produto_id` int DEFAULT NULL,
-  `qtd_produto` int DEFAULT NULL,
+  `qtd_produto` int DEFAULT 0,
   KEY `FKqmke10iymj506rxt78wjii7lw` (`tipo_cesta_id`),
   KEY `FK5iiw7hnnc1bn04efv7sx507fr` (`produto_id`),
   CONSTRAINT `FK5iiw7hnnc1bn04efv7sx507fr` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`),
@@ -379,22 +377,24 @@ CREATE TABLE `produto_unitario` (
   KEY `FKhd96i7ytrfbymtc4bg9w9qd6o` (`produto_id`),
   KEY `FK9prt9pccc77ci76lfwylix63j` (`unidade_medida_id`),
   CONSTRAINT `FK9prt9pccc77ci76lfwylix63j` FOREIGN KEY (`unidade_medida_id`) REFERENCES `unidade_medida` (`id`),
-  CONSTRAINT `FKf6alb3snb67rmemou95g7ydgc` FOREIGN KEY (`origem_id`) REFERENCES `origem` (`id`),
-  CONSTRAINT `FKhd96i7ytrfbymtc4bg9w9qd6o` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`),
+  FOREIGN KEY (`origem_id`) REFERENCES `origem` (`id`),
+  FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`),
   CONSTRAINT `FKirt2en2o27xfkdgvrqll163r0` FOREIGN KEY (`metrica_id`) REFERENCES `metrica` (`id`),
   CONSTRAINT `FKnnkcai27agneqd8mdyl5y9bk2` FOREIGN KEY (`cesta_id`) REFERENCES `cesta` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=260;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE produto_unitario 
-ADD CONSTRAINT produto_id
-FOREIGN KEY (produto_id) REFERENCES produto(id) 
+	ADD CONSTRAINT produto_id
+	FOREIGN KEY (produto_id) REFERENCES produto(id) 
 ON DELETE CASCADE;
+
+ALTER TABLE produto_unitario ADD CONSTRAINT origem_id FOREIGN KEY (origem_id) REFERENCES origem(id) ON DELETE CASCADE;
 
 --
 -- Dumping data for table `produto_unitario`
 --
-SELECT * FROM produto;
+
 LOCK TABLES `produto_unitario` WRITE;
 /*!40000 ALTER TABLE `produto_unitario` DISABLE KEYS */;
 -- inserir produtos unitários aqui
