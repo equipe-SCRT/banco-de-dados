@@ -91,22 +91,6 @@ CREATE TABLE `campanha` (
 -- Dumping data for table `campanha`
 --
 
-LOCK TABLES `campanha` WRITE;
-/*!40000 ALTER TABLE `campanha` DISABLE KEYS */;
-INSERT INTO `campanha` (`id`, `criado_em`, `modificado_em`, `local_campanha`, `data_campanha`, `qtd_arrecadada`, `meta`, `tipo_campanha_id`) VALUES
-(1, '2024-09-09 23:07:56.152706', NULL, 'Escola Viva', '2024-09-09 23:07:20.909000', 100, 10, 1),
-(2, '2024-09-10 12:00:00.000000', NULL, 'Parque Central', '2024-09-15 12:00:00.000000', 150, 30, 1),
-(3, '2024-09-11 13:30:00.000000', NULL, 'Praça das Flores', '2024-09-20 15:00:00.000000', 200, 70, 1),
-(4, '2024-09-12 14:45:00.000000', NULL, 'Rua das Acácias', '2024-09-25 16:00:00.000000', 300, 120, 1),
-(5, '2024-09-13 10:00:00.000000', NULL, 'Centro Comunitário', '2024-09-28 18:00:00.000000', 400, 90, 1),
-(6, '2024-09-14 16:00:00.000000', NULL, 'Estádio Municipal', '2024-09-30 10:00:00.000000', 500, 200, 1),
-(7, '2024-09-15 18:30:00.000000', NULL, 'Shopping Central', '2024-10-02 11:00:00.000000', 600, 250, 1),
-(8, '2024-09-16 08:15:00.000000', NULL, 'Teatro Principal', '2024-10-05 12:00:00.000000', 700, 180, 1),
-(9, '2024-09-17 09:45:00.000000', NULL, 'Ginásio Municipal', '2024-10-07 09:00:00.000000', 800, 320, 1),
-(10, '2024-09-18 11:20:00.000000', NULL, 'Escola Maria Luz', '2024-10-10 13:00:00.000000', 900, 400, 1),
-(11, '2024-09-19 12:35:00.000000', NULL, 'Universidade Federal', '2024-10-12 14:00:00.000000', 1000, 500,1);
-/*!40000 ALTER TABLE `campanha` ENABLE KEYS */;
-UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cesta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -394,7 +378,6 @@ ALTER TABLE produto_unitario ADD CONSTRAINT origem_id FOREIGN KEY (origem_id) RE
 --
 -- Dumping data for table `produto_unitario`
 --
-
 LOCK TABLES `produto_unitario` WRITE;
 /*!40000 ALTER TABLE `produto_unitario` DISABLE KEYS */;
 -- inserir produtos unitários aqui
@@ -604,11 +587,12 @@ FROM
     JOIN origem ON origem.id = produto_unitario.origem_id
     JOIN condominio ON condominio.id = origem.condominio_id
 WHERE
-    produto_unitario.conforme = 1
+    produto_unitario.conforme = 0
 GROUP BY
     condominio.id
 ORDER BY
     condominio.nome;
+    
 
 DROP TABLE IF EXISTS v_qtd_produtos_vencidos_por_condominio;
 DROP VIEW IF EXISTS v_qtd_produtos_vencidos_por_condominio;
